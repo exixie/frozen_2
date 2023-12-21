@@ -2,5 +2,6 @@
 
 ### Лабораторная работа №2
 
-Docker Compose
+Docker Compose - House Prices
 
+![olaf](/img/result.png)

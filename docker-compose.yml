@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: frozen
+      POSTGRES_USER: elsa
+      POSTGRES_PASSWORD: olaf
+    ports:
+      - "5432:5432"
+
+  spark-master:
+    image: bitnami/spark
+    build:
+      dockerfile: dockerfile
+    environment:
+      -POSTGRES_HOST: postgres
+      -POSTGRES_PORT: 5432
+      -POSTGRES_DB: frozen
+      -POSTGRES_USER: elsa
+      -POSTGRES_PASSWORD: olaf
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  spark-worker1:
+    image: bitnami/spark
+    environment:
+      -SPARK_MASTER_HOST: spark-master
+    depends_on:
+      - spark-master
+
+  spark-worker2:
+    image: bitnami/spark
+    environment:
+      -SPARK_MASTER_HOST: spark-master
+    depends_on:
+      - spark-master
+
+
